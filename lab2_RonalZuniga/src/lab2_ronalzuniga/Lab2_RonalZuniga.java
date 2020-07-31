@@ -19,12 +19,21 @@ public class Lab2_RonalZuniga {
             System.out.println("5. Listar Empleados");
             System.out.println("6. Modificar Empleados");
             System.out.println("7. Random");
+            System.out.println("8. Salir");
             System.out.println("");
             Scanner sc = new Scanner(System.in);
             System.out.print("Seleccione una opcion: ");
             op = sc.nextInt();
+            System.out.println("");
 
-            switch (op) {
+            while (opcion(op, 8) == true) {
+                System.out.println("Ingrese un numero Valido");
+                System.out.print("Seleccione una opcion: ");
+                op = sc.nextInt();
+                System.out.println();
+            }
+
+            switch (op) {//valido que primero se ingrese el usuario y la contraseña
                 case 3:
                     String user;
                     int pss;
@@ -44,15 +53,22 @@ public class Lab2_RonalZuniga {
                             System.out.println("5. Listar Empleados");
                             System.out.println("6. Modificar Empleados");
                             System.out.println("7. Random");
+                            System.out.println("8. Salir");
                             System.out.println("");
                             System.out.print("Seleccione una opcion: ");
                             opcion = sc.nextInt();
                             System.out.println();
+                            while (opcion(opcion, 8) == true) {
+                                System.out.println("Ingrese un numero Valido");
+                                System.out.print("Seleccione una opcion: ");
+                                opcion = sc.nextInt();
+                                System.out.println();
+                            }
                             ArrayList emp = new ArrayList();
-
+                            int cg = 0;//variable contadora de gerentes
                             switch (opcion) {
                                 case 1:
-                                    String x;
+                                    String x;//variables para ingresar datos de empleados
                                     int aux;
                                     float ax;
 
@@ -73,12 +89,33 @@ public class Lab2_RonalZuniga {
 
                                     System.out.print("Ingrese la edad del empleado: ");
                                     aux = sc.nextInt();
+                                    while (Edad(aux) == true) {
+                                        System.out.println("Ingrese una edad valida");
+                                        System.out.print("Ingrese la edad del empleado: ");
+                                        aux = sc.nextInt();
+                                    }
                                     emp.add(new Empleados(aux));
                                     System.out.println();
 
-                                    System.out.print("Ingrese el genero del empleado: ");
-                                    x = sc.next();
-                                    emp.add(new Empleados(x));
+                                    System.out.print("1. Femenino, 2. Masculino\n"
+                                            + "Seleccione el genero del empleado: ");
+                                    aux = sc.nextInt();
+                                    while (opcion(aux, 2) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        aux = sc.nextInt();
+                                        System.out.println();
+                                    }
+                                    switch (aux) {//se ahorra el ingreso por parte del usuario
+
+                                        case 1:
+                                            emp.add(new Empleados("Femenino"));
+                                            break;
+
+                                        case 2:
+                                            emp.add(new Empleados("Masculino"));
+                                            break;
+                                    }
                                     System.out.println();
 
                                     System.out.print("Ingrese la altura del empleado: ");
@@ -93,17 +130,31 @@ public class Lab2_RonalZuniga {
 
                                     System.out.print("Ingrese el titulo del empleado: ");
                                     x = sc.next();
-                                    emp.add(new Empleados(ax));
+                                    emp.add(new Empleados(x));
                                     System.out.println();
 
                                     System.out.print("1. Gerente, 2.Cajero, 3. Aseador, 4.Seguridad\n"
                                             + "Seleccione el cargo del empleado: ");
                                     aux = sc.nextInt();
-                                    switch (aux) {
+                                    while (opcion(aux, 4) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        aux = sc.nextInt();
+                                        System.out.println();
+                                    }
+
+                                    switch (aux) {//se ahorra el ingreso por parte del usuario
 
                                         case 1:
-                                            emp.add(new Empleados("Gerente"));
-                                            emp.add(new Empleados(50000));
+                                            if (cg >= 3) {//valida que solo hayan tres gerentes
+                                                System.out.println("Se ha contratado al limite de gerentes");
+                                                emp.add(new Empleados("Cajero"));
+                                                emp.add(new Empleados(40000));
+                                            } else {
+                                                emp.add(new Empleados("Gerente"));
+                                                emp.add(new Empleados(50000));
+                                                cg++;
+                                            }
                                             break;
 
                                         case 2:
@@ -133,10 +184,16 @@ public class Lab2_RonalZuniga {
                                     System.out.println("");
                                     System.out.print("Seleccione la posicion del empleado a despedir: ");
                                     int n = sc.nextInt();
+                                    while (opcion(n, emp.size()) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        n = sc.nextInt();
+                                        System.out.println();
+                                    }
                                     emp.remove(n);
                                     break;
 
-                                case 3:
+                                case 3://indica al usuario que ya se ha registrado
                                     System.out.println("Ya se ha ingresado mediante Log In");
                                     break;
 
@@ -152,16 +209,54 @@ public class Lab2_RonalZuniga {
                                     System.out.println("");
                                     System.out.print("Ingrese la posicion del empleado a ascender: ");
                                     n = sc.nextInt();
-                                    emp.get(n);
-                                    ((Empleados) emp.get(n)).setCargo("Gerente");
+                                    while (opcion(n, emp.size()) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        n = sc.nextInt();
+                                        System.out.println();
+                                    }
+                                    if (cg < 3) {
+                                        emp.get(n);
+                                        ((Empleados) emp.get(n)).setCargo("Gerente");
+                                    } else {
+                                        System.out.println("Ya se han contratado al limite de gerentes"
+                                                + "\n No se puede ascender a este empleado.");
+                                    }
+
                                     break;
 
                                 case 5:
+                                    ArrayList S = new ArrayList();
                                     String salida = "";
                                     System.out.println("----LISTA DE EMPLEADOS----");
                                     for (Object o : emp) {
-                                        salida += emp.indexOf(o) + "- " + o + "\n";
+                                        if (o.equals("Gerente")) {
+                                            S.add(o);
+                                        }
                                     }
+
+                                    for (Object o : emp) {
+                                        if (o.equals("Cajero")) {
+                                            S.add(o);
+                                        }
+                                    }
+
+                                    for (Object o : emp) {
+                                        if (o.equals("Aseador")) {
+                                            S.add(o);
+                                        }
+                                    }
+
+                                    for (Object o : emp) {
+                                        if (o.equals("Seguridad")) {
+                                            S.add(o);
+                                        }
+                                    }
+
+                                    for (Object o : S) {
+                                        salida += S.indexOf(o) + "- " + o + "\n";
+                                    }
+
                                     System.out.println(salida);
                                     System.out.println("");
                                     break;
@@ -176,12 +271,22 @@ public class Lab2_RonalZuniga {
                                     System.out.println("");
                                     System.out.print("Seleccione la posicion del empleado a modificar: ");
                                     n = sc.nextInt();
-
+                                    while (opcion(n, emp.size()) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        n = sc.nextInt();
+                                        System.out.println();
+                                    }
                                     System.out.println("---Modif1car Empleados---");
                                     System.out.print("1. Nombre, 2. Apellido, 3. Edad, 4. Titulo"
                                             + "\nSeleccione lo que desea modificar del empleado: ");
                                     int n2 = sc.nextInt();
-
+                                    while (opcion(n2, 4) == true) {
+                                        System.out.println("Ingrese un numero Valido");
+                                        System.out.print("Seleccione una opcion: ");
+                                        n2 = sc.nextInt();
+                                        System.out.println();
+                                    }
                                     switch (n2) {
 
                                         case 1:
@@ -223,19 +328,26 @@ public class Lab2_RonalZuniga {
                                 case 7:
                                     System.out.print("Ingrese un numero para asignar cargos Random: ");
                                     n = sc.nextInt();
-                                    while (n >= emp.size()) {
+                                    while (n >= emp.size() || n < 0) {
                                         System.out.print("Ingrese un numero para asignar cargos Random: ");
                                         n = sc.nextInt();
                                     }
                                     Random r = new Random();
                                     String c = "";
 
+                                    int cg2 = 0;
                                     for (int i = 0; i < n; i++) {
                                         int z = 0 + r.nextInt(n);
                                         int a = 1 + r.nextInt(4);
                                         switch (a) {
                                             case 1:
-                                                c = "Gerente";
+                                                if (cg2 <= 3) {
+                                                    c = "Gerente";
+                                                    cg2++;
+                                                } else {
+                                                    c = "Cajero";
+                                                }
+
                                                 break;
 
                                             case 2:
@@ -276,5 +388,26 @@ public class Lab2_RonalZuniga {
         }//fin del while
 
     }//fin del main
+
+    static boolean opcion(int n, int limite) {
+        boolean i = false;
+        if (n < 0 || n > limite) {
+            i = true;
+        } else {
+            i = false;
+        }
+        return i;
+    }
+
+    static boolean Edad(int n) {
+        boolean e = false;
+        if (n <= 0 || n >= 70) {
+            e = true;
+        } else {
+            e = false;
+        }
+        return e;
+    }
+
 
 }//fin de la clase
